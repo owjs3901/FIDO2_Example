@@ -7,7 +7,6 @@
 	<script src="helper.js">
 	</script>
 	<script language="JavaScript" type="text/javascript">
-		const request = new XMLHttpRequest()
 		let getGetAssertionChallenge = (formBody) => {
 			return fetch('/dologin', {
 				method: 'POST',
@@ -24,33 +23,6 @@
 
 					return response
 				})
-		}
-		function listener() {
-			if (request.readyState == 4)
-				if (request.status == 200)
-					alert('변경 완료')
-				else
-					alert('변경 안됨')
-			else {
-				//	로딩 중
-			}
-		}
-		function change(target) {
-			if (request) {
-				const li = []
-				for (let k of document.getElementById(target).getElementsByTagName("input"))
-					li.push(k.value)
-				request.open('PUT', document.location.href + '/set', true)
-				request.onreadystatechange = listener
-				const para = JSON.stringify({
-					program: target,
-					li: li
-				})
-				request.setRequestHeader("Content-type", "application/json; charset=utf-8");
-				request.setRequestHeader("Content-length", para.length);
-				request.setRequestHeader("Connection", "close");
-				request.send(para)
-			}
 		}
 		function login(event) {
 			event.preventDefault();

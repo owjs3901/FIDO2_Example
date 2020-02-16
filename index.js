@@ -93,8 +93,8 @@ app.post('/register', (req, res) => {
 				},
 				user: {
 					id: db[req.body.username].id,
-					name: req.body.name,
-					displayName: req.body.username
+					name: req.body.username,
+					displayName: req.body.name
 				},
 				attestation: 'direct',
 				authenticatorSelection: {
@@ -120,7 +120,6 @@ app.post('/register', (req, res) => {
 
 })
 app.post('/dologin', (req, res) => {
-
 
 	if (!req.body || !req.body.username) {
 		res.json({
@@ -178,7 +177,6 @@ app.post('/response', (req, res) => {
 
 
 	if (webauthnResp.response.attestationObject !== undefined) {
-		/* This is create cred */
 		result = utils.verifyAuthenticatorAttestationResponse(webauthnResp);
 
 		if (result.verified) {
@@ -186,7 +184,6 @@ app.post('/response', (req, res) => {
 			db[req.session.username].registered = true
 		}
 	} else if (webauthnResp.response.authenticatorData !== undefined) {
-		/* This is get assertion */
 		result = utils.verifyAuthenticatorAssertionResponse(webauthnResp, db[req.session.username].authenticators);
 
 	} else {

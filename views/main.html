@@ -3,11 +3,11 @@
 <head>
 
 	<script>
-		function f() {
+		function logout() {
 			fetch('/logout', { credentials: 'include' });
 			location.href = location.href;
 		}
-		let loadMainContainer = () => {
+		function loadMainContainer(){
 			return fetch('/personalInfo', { credentials: 'include' })
 				.then((response) => response.json())
 				.then((response) => {
@@ -24,7 +24,7 @@
 <body onload="loadMainContainer()">
 	<div id="name"></div>
 
-	<button onclick="f()">
+	<button onclick="logout()">
 		로그아웃
 	</button>
 
