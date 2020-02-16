@@ -1,0 +1,55 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>회원가입</title>
+	<script type="text/javascript" src="base64url-arraybuffer.js"></script>
+	<script type="text/javascript" src="helper.js"></script>
+	<script language="JavaScript" type="text/javascript">
+		function register() {
+			const username = document.getElementById('username').value
+			const name = document.getElementById('name').value
+			if (username && name) {
+
+				fetch('register', {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ name, username })
+				}).then(res => {
+					return res.json()
+				}).then(data => {
+					if (data.stat == 0) {
+						return data
+					}
+					else {
+						alert(data.msg)
+						throw new Error(data.msg)
+					}
+				}).then(res => {
+					let publicKey = preformatMakeCredReq(res)
+					return navigator.credentials.create({ publicKey })
+				}).then(res => {
+					let makeCredResponse = publicKeyCredentialToJSON(res);
+					return sendWebAuthnResponse(makeCredResponse)
+				}).then(res=>{
+					if(res.status==0)location.href='/'
+					else alert('알 수 없는 오류')
+				})
+			}
+			else alert('유저네임과 네임을 입력해주세요')
+		}
+
+	</script>
+
+</head>
+
+<body>
+	<input type="text" id="username"><br>
+	<input type="text" id="name"><br>
+	<button onclick="register()">회원가입</button>
+</body>
+
+</html>

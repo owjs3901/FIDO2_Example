@@ -1,0 +1,33 @@
+<html>
+
+<head>
+
+	<script>
+		function f() {
+			fetch('/logout', { credentials: 'include' });
+			location.href = location.href;
+		}
+		let loadMainContainer = () => {
+			return fetch('/personalInfo', { credentials: 'include' })
+				.then((response) => response.json())
+				.then((response) => {
+					if (response.status === 'ok') {
+						document.getElementById('name').innerText=response.name
+					} else {
+						alert(`Error! ${response.message}`)
+					}
+				})
+		}
+	</script>
+</head>
+
+<body onload="loadMainContainer()">
+	<div id="name"></div>
+
+	<button onclick="f()">
+		로그아웃
+	</button>
+
+</body>
+
+</html>
